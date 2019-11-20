@@ -6,5 +6,6 @@ package com.don.coinema
 object Api {
 
     const val BASE_URL = "https://api.themoviedb.org/3/"
+    const val PHOTO_URL = "https://image.tmdb.org/t/p/w500"
     const val API_KEY = "947a72430469290d48305ff8a407da75"
 }

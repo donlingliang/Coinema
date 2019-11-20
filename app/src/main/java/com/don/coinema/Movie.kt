@@ -1,5 +1,8 @@
 package com.don.coinema
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
 /**
  * Created by don on 2019-11-19
  */
@@ -8,9 +11,10 @@ data class Movie(
     val vote_average: Double,
     val title: String,
     val overView: String,
-    val adult: Boolean
+    val adult: Boolean,
+    @field:Json(name = "poster_path") val posterPath: String
 )
 
 data class MovieResponse(
-    val results: List<Movie>
+    public val results: List<Movie>
 )

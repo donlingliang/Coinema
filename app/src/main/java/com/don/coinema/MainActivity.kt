@@ -1,8 +1,10 @@
 package com.don.coinema
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,11 +16,28 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var popularRecyclerView: RecyclerView
+    private lateinit var moviesAdapter: MoviesAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initRecyclerView()
         initRetrofitClient()
+    }
+
+    private fun initRecyclerView() {
+        popularRecyclerView = findViewById(R.id.popular_recyclerview)
+        popularRecyclerView.layoutManager = GridLayoutManager(
+            this,
+            2,
+            RecyclerView.VERTICAL,
+            false
+        )
+
+        moviesAdapter = MoviesAdapter(listOf())
+        popularRecyclerView.adapter = moviesAdapter
     }
 
     private fun initRetrofitClient() {
@@ -52,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 Toast.makeText(this@MainActivity, "onResponse called", Toast.LENGTH_SHORT).show()
+                moviesAdapter.updateMoviesList(response.body()?.results)
             }
         })
     }
